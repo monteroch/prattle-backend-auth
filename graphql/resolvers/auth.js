@@ -13,8 +13,6 @@ module.exports = {
             const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
             //Creating the user
             const user = new User({
-                firstname: args.userInput.firstname,
-                lastname: args.userInput.lastname, 
                 email: args.userInput.email,
                 password: hashedPassword
             });

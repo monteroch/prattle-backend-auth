@@ -26,7 +26,7 @@ app.use('/graphql', graphqlHttp({
     graphiql: true
 }));
 
-mongoose.connect('mongodb://localhost:4444/prattle')
+mongoose.connect('mongodb://localhost:4444/prattle-auth')
 .then( () => {
     app.listen(4000, () => {
         console.log('Prattle running on port 4000');
