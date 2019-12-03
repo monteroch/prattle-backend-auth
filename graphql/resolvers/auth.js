@@ -37,8 +37,10 @@ module.exports = {
             throw error;
         }
     },
-    login: async ({email, password}) => {
+    login: async ({email, password}, context) => {
         //If user doesn't exist we can't login
+        console.log("INSIDE LOGIN");
+        console.log("The email is: ", email + " and the password is: " + password);
         const user = await User.findOne({ email: email });
         if(!user){
             throw new Error('User does not exist');
@@ -49,6 +51,8 @@ module.exports = {
             throw new Error('Password is incorrect');
         }
         const token = jwt.sign({ userId: user.id, email: user.email }, 'somesupersecretkey', {expiresIn: '1h'});
+        context.res.cookie("myCookie", "dskjskdjskdj");
+        console.log("Cookie: ", context.res.cookie);
         return { userId: user.id, token: token, tokenExpiration: 1 };
     }
 };
