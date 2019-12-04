@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const graphqlHttp = require('express-graphql');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 
 const graphQlSchema = require('./graphql/schema/index');
 const graphQlresolvers = require('./graphql/resolvers/index');
@@ -9,6 +10,7 @@ const graphQlresolvers = require('./graphql/resolvers/index');
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');

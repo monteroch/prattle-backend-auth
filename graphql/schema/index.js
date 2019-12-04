@@ -9,8 +9,11 @@ module.exports = buildSchema(`
 
     type AuthData{
         userId: ID!
-        token: String!
-        tokenExpiration: Int!
+    }
+
+    type UserData{
+        userId: ID!
+        email: String!
     }
 
     input UserInput {
@@ -21,6 +24,7 @@ module.exports = buildSchema(`
     type RootQuery {
         users: [User!]!
         login(email: String!, password: String!): AuthData
+        fetchUser: UserData
     }
 
     type RootMutation {

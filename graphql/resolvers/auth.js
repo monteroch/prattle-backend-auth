@@ -2,7 +2,23 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User  = require('../../models/user');
 
+const SECRET_KEY = "somesupersecretkey";
+
 module.exports = {
+    fetchUser: async (args, context) => {
+        console.log("Inside fetchUser");
+        const token = req.cookies.token;
+        if(!token){
+            // return next();
+            return null;
+        }else{
+            const { user } = jwt.verify(token, SECRET_KEY, {expiresIn: '1h'});
+            console.log(user);
+            return{
+                user
+            }
+        }
+    },
     createUser: async args => {
         try{
             //Checking if the email already exists in the database
@@ -50,9 +66,9 @@ module.exports = {
         if(!isEqual){
             throw new Error('Password is incorrect');
         }
-        const token = jwt.sign({ userId: user.id, email: user.email }, 'somesupersecretkey', {expiresIn: '1h'});
-        context.res.cookie("myCookie", "dskjskdjskdj");
+        const token = jwt.sign({ userId: user.id, email: user.email }, SECRET_KEY, {expiresIn: '1h'});
+        context.res.cookie("token", token);
         console.log("Cookie: ", context.res.cookie);
-        return { userId: user.id, token: token, tokenExpiration: 1 };
+        return { userId: user.id };
     }
 };
