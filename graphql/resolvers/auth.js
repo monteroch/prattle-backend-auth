@@ -7,15 +7,17 @@ const SECRET_KEY = "somesupersecretkey";
 module.exports = {
     fetchUser: async (args, context) => {
         console.log("Inside fetchUser");
-        const token = req.cookies.token;
+        // console.log("Context Incoming message: ", context.cookies.token);
+        const token = context.cookies.token;
         if(!token){
-            // return next();
-            return null;
+            return next();
+            // return "There is no Token";
         }else{
-            const { user } = jwt.verify(token, SECRET_KEY, {expiresIn: '1h'});
-            console.log(user);
+            const decodedToken = jwt.verify(token, SECRET_KEY, {expiresIn: '1h'});
+            console.log("The decoded token is: ", decodedToken.userId);
             return{
-                user
+                userId: decodedToken.userId,
+                email: decodedToken.email
             }
         }
     },
@@ -68,7 +70,7 @@ module.exports = {
         }
         const token = jwt.sign({ userId: user.id, email: user.email }, SECRET_KEY, {expiresIn: '1h'});
         context.res.cookie("token", token);
-        console.log("Cookie: ", context.res.cookie);
+        // console.log("Cookie: ", context.res.cookie);
         return { userId: user.id };
     }
 };
