@@ -16,6 +16,10 @@ module.exports = buildSchema(`
         email: String!
     }
 
+    type LogoutData{
+        userId: String
+    }
+
     input UserInput {
         email: String!
         password: String
@@ -24,6 +28,7 @@ module.exports = buildSchema(`
     type RootQuery {
         users: [User!]!
         login(email: String!, password: String!): AuthData
+        logout: LogoutData
         fetchUser: UserData
     }
 

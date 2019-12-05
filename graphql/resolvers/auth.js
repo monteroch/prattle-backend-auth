@@ -69,8 +69,23 @@ module.exports = {
             throw new Error('Password is incorrect');
         }
         const token = jwt.sign({ userId: user.id, email: user.email }, SECRET_KEY, {expiresIn: '1h'});
-        context.res.cookie("token", token);
+        context.res.cookie("token", token,  {httpOnly: true});
         // console.log("Cookie: ", context.res.cookie);
         return { userId: user.id };
+    },
+    logout: async (args, context) => {
+        console.log("INSIDE LOGOUT");
+        const token = context.cookies.token;
+        if(!token){
+            return next();
+            // return "There is no Token";
+        }else{
+            const decodedToken = jwt.verify(token, SECRET_KEY, {expiresIn: '1h'});
+            console.log("The decoded token is: ", decodedToken.userId);
+            context.res.clearCookie("token");
+            return{
+                userId: null
+            }
+        }
     }
 };
