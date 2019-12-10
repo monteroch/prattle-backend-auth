@@ -10,7 +10,8 @@ module.exports = {
         // console.log("Context Incoming message: ", context.cookies.token);
         const token = context.cookies.token;
         if(!token){
-            return next();
+            // return next();
+            return new Error("Token doesn't exist");
             // return "There is no Token";
         }else{
             const decodedToken = jwt.verify(token, SECRET_KEY, {expiresIn: '1h'});
