@@ -10,7 +10,6 @@ module.exports = {
         // console.log("Context Incoming message: ", context.cookies.token);
         const token = context.cookies.token;
         if(!token){
-            // return next();
             return new Error("Token doesn't exist");
             // return "There is no Token";
         }else{
