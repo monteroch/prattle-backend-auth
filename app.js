@@ -29,7 +29,7 @@ app.use('/graphql', graphqlHttp({
     graphiql: true
 }));
 
-mongoose.connect('mongodb://localhost:4444/prattle-auth', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://prattle-authdb:5000/prattle-auth', { useNewUrlParser: true, useUnifiedTopology: true })
 .then( () => {
     app.listen(4000, () => {
         console.log('[Prattle Auth] running on port 4000');
